@@ -6,7 +6,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 
-df = pd.read_csv('fox_frcnn_tags.txt')
+df = pd.read_csv('labels/regions/fox_frcnn_tags.txt')
 
 # best guess fox labels
 
@@ -66,7 +66,7 @@ for image_path in glob("cropped/old_falcon*")[:2]:
         f.write(f"{filename},{label}\n")
     clear_output(wait=True)
 
-# easy falcon labels
+# easy falcon labels: TODO
 
 for image_path in glob("cropped/old_falcon*")[:2]:
     filename = image_path.split('/')[1]
@@ -78,14 +78,16 @@ for image_path in glob("cropped/old_falcon*")[:2]:
         f.write(f"{filename},{label}\n")
     clear_output(wait=True)
 
-# redo best guess old fox labels from frames
+# redo best guess old fox labels from frames: TODO
 
-for image_path in glob("cropped/old_fox*")[:2]:
-    filename = image_path.split('/')[1]
+for image_path in glob("data/larger_cropped/*")[:2]:
+    filename = image_path.split('/')[-1]
     im = Image.open(image_path)
     plt.imshow(im)
     plt.show()
     label = input()
-    with open("labels.csv", 'a') as f:
+    with open("labels/classifier/easy_larger_cropped_labels.csv", 'a') as f:
         f.write(f"{filename},{label}\n")
     clear_output(wait=True)
+
+# lost some easy labels; redoing on larger_cropped images

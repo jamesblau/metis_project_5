@@ -1,0 +1,7 @@
+Couldn't get pre-trained model from AdamSpannbauer/ssbm_fox_detector working.
+
+Instead of training my own, MVP is classifying hand-labelled data cropped from training set of above project.
+
+Produced best-guess ("hard") labels of specific aerials, specific specials (specifying in air our grounded), shield, ledgegrab, and "other" air and "other" grounded generic states.
+
+Also produced "easy" labels: just "in air", "grounded", "using up-b", "using down-b", "in shield". (The latter three because they're distinctive and easier to determine when zoomed in that aerial state, probably.)
