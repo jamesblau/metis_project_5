@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.applications.vgg16 import VGG16
@@ -118,7 +119,7 @@ def prepare_image(img_path):
 
 X = np.array([prepare_image(path)[0] for path in paths])
 
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=42)
 
 y_tr_cat = np_utils.to_categorical(y_tr)
 
@@ -136,24 +137,43 @@ for layer in pretrained.layers[:10]:
 model = Sequential()
 model.add(pretrained)
 model.add(Flatten())
-model.add(Dense(num_categories))
+
+if num_categories > 2:
+    model.add(Dense(num_categories))
+    loss='categorical_crossentropy',
+else:
+    model.add(Dense(1, activation='sigmoid'))
+    loss='binary_crossentropy',
 
 model.compile(
-    loss='categorical_crossentropy',
+    loss=loss,
     optimizer='adam',
     metrics=['accuracy'],
 )
 
 # Train model
 
-# Multi-class
-model.fit(X_tr, y_tr_cat)
+if num_categories > 2:
+    model.fit(X_tr, y_tr_cat)
+else:
+    model.fit(X_tr, y_tr)
 
-# Air-or-ground
-# model.fit(X_tr, y_tr)
+# with open('pickles/model_1.pickle', 'wb') as f:
+    # pickle.dump(model, f)
 
-y_pr = model.predict_classes(X_te)
+with open('pickles/model_1.pickle', 'rb') as f:
+    model = pickle.load(f)
+
+# Predict and score
+
+y_pr = model.predict_classes(X_te)[:,0]
+
+len(y_pr[y_pr == y_te]) / len(y_pr)
+
+len(y_pr), len(y_te)
 
 y_tr_pr = model.predict_classes(X_tr)
 
-y_tr_pr
+len(y_tr_pr[y_tr_pr == y_tr]) / len(y_tr_pr)
+
+len(y_tr_pr), len(y_tr)
