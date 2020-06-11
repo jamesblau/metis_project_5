@@ -21,7 +21,7 @@ for label in raw_easy_labels:
     (category, frame, label) = label_regex.match(label).groups()
     int_label = label_to_int.get(label)
     if int_label and category == 'new_fox_':
-        path = f"data/larger_cropped/{frame}.png"
+        path = f"data/wiz_sfat/larger_cropped/{frame}.png"
         easy_paths.append(path)
         easy_y.append(int_label)
 
@@ -29,7 +29,7 @@ easy_num_categories = 5
 
 # Get new easy_larger_cropped labels
 
-with open('labels/classifier/easy_larger_cropped_labels.csv') as f:
+with open('labels/classifier/easy_wiz_sfat_larger_cropped_labels.csv') as f:
     raw_elc_labels = f.read().split('\n')[1:-1]
 
 elc_label_regex = re.compile('^([^.]*)\.png,(.*)$')
@@ -49,7 +49,7 @@ for label in raw_elc_labels:
     frame, label = elc_label_regex.match(label).groups()
     if label in elc_label_to_int.keys():
         int_label = elc_label_to_int[label]
-        path = f"data/larger_cropped/{frame}.png"
+        path = f"data/wiz_sfat/larger_cropped/{frame}.png"
         elc_paths.append(path)
         elc_y.append(int_label)
 
@@ -57,7 +57,7 @@ elc_num_categories = 2
 
 # Get hard labels
 
-with open('labels/classifier/labels.csv') as f:
+with open('labels/classifier/hard_wiz_sfat_labels.csv') as f:
     raw_hard_labels = f.read().split('\n')[1:-1]
 
 hard_label_regex = re.compile('^([^\d]*)([^.]*)\.png,.,(.*)$')
@@ -93,7 +93,7 @@ for label in raw_hard_labels:
     int_label = label_to_int.get(label)
     if int_label and category == 'new_fox_':
         labels.add(label)
-        path = f"data/larger_cropped/{frame}.png"
+        path = f"data/wiz_sfat/larger_cropped/{frame}.png"
         paths.append(path)
         hard_y.append(label)
 

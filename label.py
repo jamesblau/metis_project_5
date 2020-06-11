@@ -80,13 +80,13 @@ for image_path in glob("cropped/old_falcon*")[:2]:
 
 # redo best guess old fox labels from frames: TODO
 
-for image_path in glob("data/larger_cropped/*")[:2]:
+for image_path in glob("data/wiz_sfat/larger_cropped/*")[:2]:
     filename = image_path.split('/')[-1]
     im = Image.open(image_path)
     plt.imshow(im)
     plt.show()
     label = input()
-    with open("labels/classifier/easy_larger_cropped_labels.csv", 'a') as f:
+    with open("labels/classifier/easy_wiz_sfat_larger_cropped_labels.csv", 'a') as f:
         f.write(f"{filename},{label}\n")
     clear_output(wait=True)
 

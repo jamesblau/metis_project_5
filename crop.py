@@ -19,7 +19,7 @@ for _, (path, x1, y1, x2, y2, _) in df.iterrows():
     y1 = y1 - top_pad
     y2 = y2 + bottom_pad
     frame_num = re.sub(".*frame(.*)\..*", "\\1", path)
-    out_file_path = f"data/larger_cropped/{frame_num}.png"
+    out_file_path = f"data/wiz_sfat/larger_cropped/{frame_num}.png"
     im = Image.open('data/' + path)
     cropped = im.crop((x1, y1, x2, y2)).convert('RGB')
     cropped.save(out_file_path)
