@@ -1,3 +1,5 @@
+import re
+import screeninfo
 import argparse
 import cv2
 
@@ -25,7 +27,7 @@ def click_and_crop(event, x, y, flags, param):
 
         # Draw a rectangle around the region of interest
         cv2.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
-        cv2.imshow("image", image)
+        cv2.imshow(window_name, image)
 
 # Construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -34,22 +36,30 @@ ap.add_argument("-d", "--output_dir", required=True, help="Path to the output di
 ap.add_argument("-r", "--region_file", required=True, help="Path to a file to write region coordinates")
 args = vars(ap.parse_args())
 file_path = args["image"]
-filename = file_path.split('/')[-1]
 output_dir = args["output_dir"]
 region_file = args["region_file"]
 if output_dir[-1] != '/':
     output_dir += '/'
 
+# Change filename to write as png and without "frame"
+filename = re.sub(".*frame(.*)\.jpg", "\\1", file_path) + ".png"
+
+# Set up fullscreen
+window_name = "Image to Crop"
+screen = screeninfo.get_monitors()[0]
+width, height = screen.width, screen.height
+cv2.namedWindow(window_name, cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
 # Load the image, clone it, and set up the mouse callback function
 image = cv2.imread(file_path)
 clone = image.copy()
-cv2.namedWindow("image")
-cv2.setMouseCallback("image", click_and_crop)
+cv2.setMouseCallback(window_name, click_and_crop)
 
 # keep looping until the 'q' key is pressed
 while True:
     # display the image and wait for a keypress
-    cv2.imshow("image", image)
+    cv2.imshow(window_name, image)
     key = cv2.waitKey(1) & 0xFF
 
     # If the 'r' key is pressed, reset the cropping region

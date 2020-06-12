@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-image_dir="data/tbh7_purp_fox_vgbc"
+image_dir="data/tbh7_purp_fox_vgbc/frames"
 output_dir="data/tbh7_purp_fox_vgbc/larger_cropped"
-region_file="labels/regions/tbh7_purp_fox_vgbc_larger_cropped_regions.csv"
+region_file="labels/regions/tbh7_purp_fox_vgbc_regions.csv"
 
 for image_filename in $(ls ${image_dir} | shuf); do
   if grep -q "^${image_filename}," ${region_file}; then
