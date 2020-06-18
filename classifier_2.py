@@ -150,12 +150,11 @@ hws_paths, hws_labels, hws_y = [], [], []
 for label in raw_hws_labels:
     (category, frame, label) = hws_label_regex.match(label).groups()
     int_label = hws_label_to_int.get(label)
-    hws_labels.append(label)
     if int_label and category == 'new_fox_':
-        int_label = hws_label_to_int[label]
+        hws_labels.append(label)
         path = f"{project_dir}/data/wiz_sfat/larger_cropped/{frame}.png"
         hws_paths.append(path)
-        hws_y.append(int_label)
+        hws_y.append(label)
 
 print(Counter(hws_labels))
 
